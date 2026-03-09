@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What Kind of Meditator Are You?</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Georgia', serif;
+      background: #f8f6f2;
+      color: #1a1a1a;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 48px 24px;
+    }
+
+    .container {
+      max-width: 640px;
+      width: 100%;
+    }
+
+    /* --- Intro screen --- */
+    #intro h1 {
+      font-size: 2rem;
+      font-weight: normal;
+      line-height: 1.25;
+      margin-bottom: 20px;
+      letter-spacing: -0.5px;
+    }
+
+    #intro p {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #444;
+      margin-bottom: 16px;
+    }
+
+    /* --- Progress --- */
+    .progress-bar {
+      height: 3px;
+      background: #e0ddd8;
+      border-radius: 2px;
+      margin-bottom: 40px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: #1a1a1a;
+      border-radius: 2px;
+      transition: width 0.4s ease;
+    }
+
+    .progress-label {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 0.75rem;
+      color: #999;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    /* --- Question --- */
+    .question-number {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 0.75rem;
+      color: #999;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .question-text {
+      font-size: 1.35rem;
+      line-height: 1.45;
+      margin-bottom: 32px;
+      font-weight: normal;
+    }
+
+    /* --- Options --- */
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .option {
+      padding: 16px 20px;
+      border: 1.5px solid #ddd;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #333;
+      background: #fff;
+      transition: all 0.15s ease;
+      text-align: left;
+      font-family: 'Georgia', serif;
+    }
+
+    .option:hover {
+      border-color: #1a1a1a;
+      background: #f0ede8;
+      color: #1a1a1a;
+    }
+
+    .option.selected {
+      border-color: #1a1a1a;
+      background: #1a1a1a;
+      color: #fff;
+    }
+
+    /* --- Button --- */
+    .btn {
+      display: inline-block;
+      margin-top: 28px;
+      padding: 14px 32px;
+      background: #1a1a1a;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      cursor: pointer;
+      letter-spacing: 0.02em;
+      transition: background 0.15s ease;
+    }
+
+    .btn:hover { background: #333; }
+    .btn:disabled { background: #ccc; cursor: default; }
+
+    .btn-outline {
+      background: transparent;
+      color: #1a1a1a;
+      border: 1.5px solid #1a1a1a;
+      margin-left: 12px;
+    }
+
+    .btn-outline:hover { background: #f0ede8; }
+
+    /* --- Results --- */
+    #results { display: none; }
+
+    .archetype-label {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 0.75rem;
+      color: #999;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .archetype-name {
+      font-size: 2.2rem;
+      font-weight: normal;
+      letter-spacing: -0.5px;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .archetype-desc {
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: #333;
+      margin-bottom: 32px;
+      border-left: 3px solid #1a1a1a;
+      padding-left: 20px;
+    }
+
+    .tension {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #555;
+      margin-bottom: 32px;
+      background: #f0ede8;
+      padding: 18px 20px;
+      border-radius: 6px;
+    }
+
+    .tension strong {
+      display: block;
+      color: #1a1a1a;
+      margin-bottom: 6px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .teachers-label {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 0.75rem;
+      color: #999;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .teacher-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 36px;
+    }
+
+    .teacher-card {
+      padding: 16px 18px;
+      border: 1.5px solid #e0ddd8;
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .teacher-card h4 {
+      font-size: 1rem;
+      font-weight: normal;
+      margin-bottom: 4px;
+    }
+
+    .teacher-card p {
+      font-size: 0.9rem;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #e0ddd8;
+      margin: 36px 0;
+    }
+
+    .other-types {
+      font-size: 0.9rem;
+      color: #777;
+      line-height: 1.6;
+    }
+
+    .other-types strong {
+      color: #1a1a1a;
+      font-weight: normal;
+    }
+
+    /* --- Transitions --- */
+    .fade-in {
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- Mobile --- */
+    @media (max-width: 480px) {
+      body { padding: 32px 20px; }
+      #intro h1 { font-size: 1.6rem; }
+      .question-text { font-size: 1.15rem; }
+      .archetype-name { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Intro -->
+  <div id="intro" class="fade-in">
+    <h1>What kind of meditator are you?</h1>
+    <p>Meditation teachers disagree — more than the marketing lets on. They disagree about whether practice accumulates, whether you're already free, whether it can do harm, and what actually motivates people once the ego quiets down.</p>
+    <p>This quiz maps where you sit in those debates. Seven questions. No right answers.</p>
+    <button class="btn" onclick="startQuiz()">Start →</button>
+  </div>
+
+  <!-- Quiz -->
+  <div id="quiz" style="display:none;">
+    <div class="progress-label" id="progress-label">Question 1 of 7</div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+    </div>
+    <div class="question-number" id="q-number"></div>
+    <div class="question-text" id="q-text"></div>
+    <div class="options" id="options"></div>
+    <div>
+      <button class="btn" id="next-btn" onclick="nextQuestion()" disabled>Next →</button>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div id="results" class="fade-in">
+    <div class="archetype-label">Your meditation style</div>
+    <div class="archetype-name" id="result-name"></div>
+    <div class="archetype-desc" id="result-desc"></div>
+    <div class="tension" id="result-tension"></div>
+    <div class="teachers-label">Teachers worth exploring</div>
+    <div class="teacher-list" id="result-teachers"></div>
+    <hr class="divider">
+    <div class="other-types" id="other-types"></div>
+    <div style="margin-top: 32px;">
+      <button class="btn btn-outline" onclick="restartQuiz()">Retake quiz</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const questions = [
+    {
+      text: "What originally brought you to meditation?",
+      options: [
+        { text: "Something wasn't working — anxiety, stress, sleep, burnout.", type: "pragmatist" },
+        { text: "Curiosity about the nature of consciousness itself.", type: "radical" },
+        { text: "A sense that there's more depth to experience than I was accessing.", type: "gradualist" },
+        { text: "I wanted to become a wiser, more integrated person overall.", type: "integrator" },
+        { text: "I'm honestly not sure it does anything — but I keep reading about it.", type: "questioner" }
+      ]
+    },
+    {
+      text: "How do you feel about long-term committed practice?",
+      options: [
+        { text: "Essential. Real change takes real time.", type: "gradualist" },
+        { text: "Suspicious. The commitment might just be the ego's next project.", type: "radical" },
+        { text: "Only worth it if there's measurable benefit.", type: "pragmatist" },
+        { text: "Necessary but not sufficient — psychological work has to happen alongside it.", type: "integrator" },
+        { text: "I'm not sure 'practice' is even the right frame.", type: "questioner" }
+      ]
+    },
+    {
+      text: "What frustrates you most about the meditation world?",
+      options: [
+        { text: "The vague, non-falsifiable claims — 'just be present' doesn't help anyone.", type: "pragmatist" },
+        { text: "The assumption that you need to accumulate more before anything changes.", type: "radical" },
+        { text: "The gap between retreat experiences and the rest of life.", type: "integrator" },
+        { text: "The silence around when it doesn't work — or actively makes things worse.", type: "questioner" },
+        { text: "The way it gets sold as a lifestyle product instead of something serious.", type: "gradualist" }
+      ]
+    },
+    {
+      text: "What would genuinely change your life?",
+      options: [
+        { text: "Less reactivity, more ease with difficult emotions.", type: "pragmatist" },
+        { text: "Actually experiencing what the teachers are pointing at.", type: "radical" },
+        { text: "Consistent, reliable progress — no plateau, no wasted years.", type: "gradualist" },
+        { text: "An integration of insight with a more ethical, relational life.", type: "integrator" },
+        { text: "An honest answer to whether any of this is real.", type: "questioner" }
+      ]
+    },
+    {
+      text: "Someone tells you they've meditated every day for 20 years. What's your first thought?",
+      options: [
+        { text: "Respect. That level of consistency probably produced something real.", type: "gradualist" },
+        { text: "I'd wonder if the commitment itself became the thing they're attached to.", type: "radical" },
+        { text: "I'd want to know what actually changed — behaviorally, measurably.", type: "pragmatist" },
+        { text: "I'd wonder about their relationships and ethical life, not just their inner state.", type: "integrator" },
+        { text: "I'd ask if they ever seriously considered stopping.", type: "questioner" }
+      ]
+    },
+    {
+      text: "What do you make of the idea that you're 'already free'?",
+      options: [
+        { text: "Inspiring. I want to look for that.", type: "radical" },
+        { text: "Suspicious. It sounds like an excuse to skip the actual work.", type: "gradualist" },
+        { text: "Interesting as a pointer, but dangerously incomplete as a teaching.", type: "integrator" },
+        { text: "Empirically meaningless until someone defines what that actually means.", type: "pragmatist" },
+        { text: "It's either true or it isn't. I genuinely don't know.", type: "questioner" }
+      ]
+    },
+    {
+      text: "When sitting feels dry and pointless, what do you do?",
+      options: [
+        { text: "Keep going. Consistency matters more than any individual session.", type: "gradualist" },
+        { text: "Stop. Forcing it seems to contradict the whole point.", type: "radical" },
+        { text: "Track it. There might be a pattern worth understanding.", type: "pragmatist" },
+        { text: "Investigate the dryness. It's usually more interesting than the practice.", type: "integrator" },
+        { text: "Question whether the method is actually right for me.", type: "questioner" }
+      ]
+    }
+  ];
+
+  const archetypes = {
+    gradualist: {
+      name: "The Gradualist",
+      desc: "You believe real change takes real time. You're skeptical of shortcuts, unimpressed by sudden revelations, and suspicious of teachings that skip the work. For you, the path is the point — and you've probably noticed that most people who claim to have 'arrived' don't seem all that different.",
+      tension: {
+        label: "The tension you live with",
+        text: "The question you can't fully answer: at what point is sustained practice a virtue, and at what point does it become the ego's way of staying in charge? Some traditions would say the seeking is the obstacle — and that your commitment to the path is the thing keeping you from what you're after."
+      },
+      teachers: [
+        { name: "Charlotte Joko Beck", desc: "Straightforward American Zen teacher who thought practice had to be measured in decades, not breakthroughs. Direct, unsentimental, and focused on the ordinary." },
+        { name: "Henry Shukman", desc: "Argues for a staged model of practice — mindfulness, depth work, absorption, awakening — in that order. Believes shortcuts produce incomplete practitioners." },
+        { name: "Joseph Goldstein", desc: "Theravada teacher who treats cultivation as non-negotiable. Has spent decades on retreat and thinks the accumulation shows." },
+        { name: "Rick Hanson", desc: "Neuroscience-informed teacher who argues that states only become traits through deliberate, repeated internalization. The most evidence-adjacent of the gradualists." }
+      ]
+    },
+    radical: {
+      name: "The Radical",
+      desc: "You suspect the search itself might be the problem. The seeking, the accumulating, the striving toward a finish line — you've started to wonder if all of that is just the ego's next project wearing spiritual clothes. You're drawn to teachings that say: stop. It's already here.",
+      tension: {
+        label: "The tension you live with",
+        text: "If there's nothing to do, why read about it? If you're already free, who is reading? Most radical teachers can't fully answer this — including the honest ones. You're also aware that 'already enlightened' is exactly what a lazy person would want to hear, which makes you slightly suspicious of yourself for finding it appealing."
+      },
+      teachers: [
+        { name: "John Astin", desc: "Spent years trying to sustain non-dual awareness before concluding that sustaining it was a misunderstanding. The wave doesn't sustain the ocean — it already is the ocean." },
+        { name: "Peter Fenner", desc: "Australian teacher whose entire framework is built on the claim that believing there's a path to walk is the primary misunderstanding." },
+        { name: "Gangaji", desc: "Papaji lineage. Her teaching: stop the search entirely — then lose that recognition repeatedly so it never becomes another fixed attainment." },
+        { name: "Jim Newman", desc: "The most uncompromising voice in this direction. There is no individual to be enlightened. This message 'truly isn't for anyone.' Worth reading even if you disagree." }
+      ]
+    },
+    pragmatist: {
+      name: "The Pragmatist",
+      desc: "You want to know what actually works, for whom, under what conditions. You've noticed that the meditation world is surprisingly comfortable making broad claims without much interest in who gets harmed. You'd like to see the data. You'd also like someone to talk honestly about dosage.",
+      tension: {
+        label: "The tension you live with",
+        text: "The empirical frame captures real things — attentional training, measurable outcomes, individual variation. But some practitioners would say you're optimizing for the wrong variable, and that 'what works' in a clinical sense is different from what the deepest teachers are pointing at. You're not sure they're wrong."
+      },
+      teachers: [
+        { name: "Willoughby Britton", desc: "Researcher who has spent her career documenting adverse meditation effects. If you've wondered whether more practice is always better, she's the most important person in this space." },
+        { name: "Shinzen Young", desc: "Built a systematic, almost mathematical framework for mindfulness practice. Treats the whole thing like a science with a happiness grid and everything." },
+        { name: "Amishi Jha", desc: "Cognitive neuroscientist who studies attention under extreme stress (military populations). The most rigorously evidence-based practitioner in this list." },
+        { name: "Oliver Burkeman", desc: "Not a meditator in the traditional sense, but the most useful secular voice on why systems of self-improvement tend to become the problem." }
+      ]
+    },
+    integrator: {
+      name: "The Integrator",
+      desc: "You've noticed that awakening and being a good person are not the same thing. You've probably seen practitioners — or teachers — who had real insight and still behaved badly. You think the spiritual and psychological dimensions of development have to go together, and you're skeptical of frameworks that separate them.",
+      tension: {
+        label: "The tension you live with",
+        text: "The integrative project is genuinely hard — it's not clear where ego strengthening ends and spiritual work begins, or whether insisting on both is just a way of never committing to either. The most radical teachers would say the 'integration' goal is the ego's way of staying in charge of the whole process."
+      },
+      teachers: [
+        { name: "Diane Musho Hamilton", desc: "Zen teacher who built an entire framework around the idea that spiritual insight without conflict resolution skills and shadow work produces practitioners who can't act wisely in the world." },
+        { name: "Loch Kelly", desc: "Dzogchen-influenced teacher who argues that non-dual recognition needs to be simultaneously grounded in embodiment and clear awareness — not just deconstruction." },
+        { name: "Stephan Bodian", desc: "Former Zen monk who spent years in dry, misdirected sitting before finding direct-pointing methods. Now explicitly argues that psychological issues have to be addressed alongside awakening." },
+        { name: "Henry Shukman", desc: "His four-zone model (mindfulness → depth → absorption → awakening) is the most explicit attempt to map a complete developmental arc rather than just pointing at one part of it." }
+      ]
+    },
+    questioner: {
+      name: "The Questioner",
+      desc: "You're genuinely curious about this, but you don't quite buy what's being sold. You've noticed the structural silences — what the official accounts can't say, what never gets discussed, what gets glossed over with a reassuring phrase. You keep reading because something here seems real. You just haven't found someone honest enough about the complications.",
+      tension: {
+        label: "The tension you live with",
+        text: "The questioner's trap is that the very skepticism that makes you see clearly can also keep you from going deep enough to find out if any of this is real. At some point, questions become a form of avoidance. The teachers below don't resolve this — but they're honest about it."
+      },
+      teachers: [
+        { name: "Christopher Titmuss", desc: "Distrusts both the progressive accumulation model and the 'already enlightened' shortcut. Thinks neither produces what it promises, and is willing to say so." },
+        { name: "Kieran Setiya", desc: "Analytic philosopher who takes the phenomenological insights of meditation seriously while remaining skeptical that they dissolve all categories of human suffering. A useful outside perspective." },
+        { name: "Adyashanti", desc: "Draws from Zen and Advaita but has an unusual willingness to name the problems — including the possibility that meditation becomes a tool for hiding from yourself." },
+        { name: "Charlotte Joko Beck", desc: "The most unsentimental Zen teacher in this list. Deeply suspicious of spiritual experience as a category. 'The substitute life' is her term for everything we use practice to avoid." }
+      ]
+    }
+  };
+
+  let current = 0;
+  let scores = { gradualist: 0, radical: 0, pragmatist: 0, integrator: 0, questioner: 0 };
+  let selected = null;
+
+  function startQuiz() {
+    document.getElementById('intro').style.display = 'none';
+    document.getElementById('quiz').style.display = 'block';
+    showQuestion();
+  }
+
+  function showQuestion() {
+    const q = questions[current];
+    document.getElementById('q-number').textContent = '';
+    document.getElementById('q-text').textContent = q.text;
+    document.getElementById('progress-label').textContent = `Question ${current + 1} of ${questions.length}`;
+    document.getElementById('progress-fill').style.width = `${(current / questions.length) * 100}%`;
+
+    const optionsEl = document.getElementById('options');
+    optionsEl.innerHTML = '';
+    q.options.forEach((opt, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'option';
+      btn.textContent = opt.text;
+      btn.onclick = () => selectOption(btn, opt.type);
+      optionsEl.appendChild(btn);
+    });
+
+    selected = null;
+    document.getElementById('next-btn').disabled = true;
+    document.getElementById('next-btn').textContent = current === questions.length - 1 ? 'See results →' : 'Next →';
+
+    // Animate in
+    document.getElementById('quiz').classList.remove('fade-in');
+    void document.getElementById('quiz').offsetWidth;
+    document.getElementById('quiz').classList.add('fade-in');
+  }
+
+  function selectOption(btn, type) {
+    document.querySelectorAll('.option').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selected = type;
+    document.getElementById('next-btn').disabled = false;
+  }
+
+  function nextQuestion() {
+    if (!selected) return;
+    scores[selected]++;
+    current++;
+    if (current < questions.length) {
+      showQuestion();
+    } else {
+      showResults();
+    }
+  }
+
+  function showResults() {
+    document.getElementById('quiz').style.display = 'none';
+    const resultsEl = document.getElementById('results');
+    resultsEl.style.display = 'block';
+
+    // Find winner
+    const winner = Object.entries(scores).sort((a, b) => b[1] - a[1])[0][0];
+    const archetype = archetypes[winner];
+
+    document.getElementById('result-name').textContent = archetype.name;
+    document.getElementById('result-desc').textContent = archetype.desc;
+
+    const tensionEl = document.getElementById('result-tension');
+    tensionEl.innerHTML = `<strong>${archetype.tension.label}</strong>${archetype.tension.text}`;
+
+    const teachersEl = document.getElementById('result-teachers');
+    teachersEl.innerHTML = '';
+    archetype.teachers.forEach(t => {
+      const card = document.createElement('div');
+      card.className = 'teacher-card';
+      card.innerHTML = `<h4>${t.name}</h4><p>${t.desc}</p>`;
+      teachersEl.appendChild(card);
+    });
+
+    // Other types summary
+    const others = Object.entries(scores)
+      .filter(([k]) => k !== winner)
+      .sort((a, b) => b[1] - a[1])
+      .map(([k]) => `<strong>${archetypes[k].name}</strong>`)
+      .join(', ');
+    document.getElementById('other-types').innerHTML = `You also scored in: ${others}. Most people are a mix.`;
+
+    resultsEl.classList.remove('fade-in');
+    void resultsEl.offsetWidth;
+    resultsEl.classList.add('fade-in');
+    window.scrollTo(0, 0);
+  }
+
+  function restartQuiz() {
+    current = 0;
+    scores = { gradualist: 0, radical: 0, pragmatist: 0, integrator: 0, questioner: 0 };
+    selected = null;
+    document.getElementById('results').style.display = 'none';
+    document.getElementById('intro').style.display = 'block';
+    window.scrollTo(0, 0);
+  }
+</script>
+</body>
+</html>
