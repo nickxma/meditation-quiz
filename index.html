@@ -13,14 +13,63 @@
       color: #1a1a1a;
       min-height: 100vh;
       display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding: 48px 24px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 0;
+    }
+
+    nav {
+      border-bottom: 1px solid #e4e1db;
+      background: #fff;
+      padding: 14px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      width: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .nav-brand {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #2d5a27;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      font-size: 0.8rem;
+      color: #777;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #2d5a27;
     }
 
     .container {
       max-width: 640px;
       width: 100%;
+      padding: 48px 24px;
     }
 
     /* --- Intro screen --- */
@@ -263,6 +312,20 @@
   </style>
 </head>
 <body>
+
+<nav>
+  <div class="nav-container">
+    <div class="nav-brand">Paradox of Acceptance</div>
+    <div class="nav-links">
+      <a href="https://nickxma.github.io/">Home</a>
+      <a href="https://nickxma.github.io/meditation-quiz/" class="active">Quiz</a>
+      <a href="https://nickxma.github.io/meditation-debates/">Debates</a>
+      <a href="https://nickxma.github.io/meditation-recommender/">Recommender</a>
+      <a href="https://nickxma.github.io/teacher-debates/">Teachers</a>
+    </div>
+  </div>
+</nav>
+
 <div class="container">
 
   <!-- Intro -->
@@ -303,10 +366,14 @@
   </div>
 
   <div style="margin-top:52px;padding-top:24px;border-top:1px solid #e4e1db;text-align:center;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:0.85rem;color:#999;">
-    <span>Explore more: </span>
-    <a href="https://nickxma.github.io/meditation-debates/" style="color:#2d5a27;text-decoration:none;font-weight:500;">5 debates the field can't resolve</a>
+    <span>Explore: </span>
+    <a href="https://nickxma.github.io/" style="color:#2d5a27;text-decoration:none;font-weight:500;">Home</a>
     <span style="margin:0 10px;">·</span>
-    <a href="https://nickxma.github.io/meditation-recommender/" style="color:#2d5a27;text-decoration:none;font-weight:500;">What should I actually practice?</a>
+    <a href="https://nickxma.github.io/meditation-debates/" style="color:#2d5a27;text-decoration:none;font-weight:500;">Debates</a>
+    <span style="margin:0 10px;">·</span>
+    <a href="https://nickxma.github.io/meditation-recommender/" style="color:#2d5a27;text-decoration:none;font-weight:500;">Recommender</a>
+    <span style="margin:0 10px;">·</span>
+    <a href="https://nickxma.github.io/teacher-debates/" style="color:#2d5a27;text-decoration:none;font-weight:500;">Teachers</a>
   </div>
 
 </div>
